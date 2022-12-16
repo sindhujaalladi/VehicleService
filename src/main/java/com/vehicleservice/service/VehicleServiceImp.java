@@ -14,6 +14,9 @@ import com.vehicleservice.common.Response;
 import com.vehicleservice.entity.Vehicle;
 import com.vehicleservice.pojo.VehicleDTO;
 import com.vehicleservice.repository.VehicleRepository;
+
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Lazy;
@@ -43,6 +46,8 @@ public class VehicleServiceImp implements VehicleService{
 		vehiclerepository.save(vehobj);	
 			return "Vehicle data created and successfully stored in db";	
 	}
+	
+	
 
 	@Override
 	public List<Vehicle> getAllVehicleInfo() {
@@ -64,7 +69,7 @@ public class VehicleServiceImp implements VehicleService{
 		return dtoobj;
 	}
 		
-		
+	@CircuitBreaker(name = "VehicleRegistrationService",fallbackMethod = "dummygetVehicleServiceData")	
 	public List<Response> getVehicleServiceData() {
 		List<Vehicle> veholistbj = vehiclerepository.findAll();
 	Registration[] restobj = resttemplate
@@ -77,6 +82,32 @@ public class VehicleServiceImp implements VehicleService{
 		lisobj.add(res);
 		return lisobj;
 	}
+	
+	public List<Response> dummygetVehicleServiceData(Exception e){
+		List<Response> lisobj = new ArrayList<>();
+		Response res = new Response();
+		List<Vehicle> vehlisobj = new ArrayList<>();
+		Vehicle vehobj = new Vehicle();
+		vehobj.setVehiclename("dummyvehiclename");
+		vehobj.setVehiclenum(1);
+		vehobj.setVehicleownername("dummyvehicleownername");
+		vehobj.setVehicletype("dummyvehicletype");
+		vehlisobj.add(vehobj);
+		List<Registration>  listobj = new ArrayList<>();
+		Registration regobj = new Registration();
+		regobj.setRegistrationid(1);
+		regobj.setRegistrationLocation("dummyreglocation");
+		regobj.setRegistrationownername("dummyregownername");
+		regobj.setRegistrationservicename("dummyregservicename");
+		regobj.setRegistrationfees(2000);
+		listobj.add(regobj);
+		res.setRegistration(listobj);
+		res.setVehicle(vehlisobj);
+		lisobj.add(res);
+		return lisobj;
+	}
+	
+	
 
 		
 
