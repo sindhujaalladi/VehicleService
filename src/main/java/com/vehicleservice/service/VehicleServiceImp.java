@@ -16,6 +16,7 @@ import com.vehicleservice.pojo.VehicleDTO;
 import com.vehicleservice.repository.VehicleRepository;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -69,7 +70,8 @@ public class VehicleServiceImp implements VehicleService{
 		return dtoobj;
 	}
 		
-	@CircuitBreaker(name = "VehicleRegistrationService",fallbackMethod = "dummygetVehicleServiceData")	
+	//@CircuitBreaker(name = "VehicleRegistrationService",fallbackMethod = "dummygetVehicleServiceData")	
+	@Retry(name= "VehicleRegistrationService",fallbackMethod="dummygetVehicleServiceData")
 	public List<Response> getVehicleServiceData() {
 		List<Vehicle> veholistbj = vehiclerepository.findAll();
 	Registration[] restobj = resttemplate
@@ -88,7 +90,7 @@ public class VehicleServiceImp implements VehicleService{
 		Response res = new Response();
 		List<Vehicle> vehlisobj = new ArrayList<>();
 		Vehicle vehobj = new Vehicle();
-		vehobj.setVehiclename("dummyvehiclename");
+		vehobj.setVehiclename("dummyvehiclenamefrom retry");
 		vehobj.setVehiclenum(1);
 		vehobj.setVehicleownername("dummyvehicleownername");
 		vehobj.setVehicletype("dummyvehicletype");
@@ -96,7 +98,7 @@ public class VehicleServiceImp implements VehicleService{
 		List<Registration>  listobj = new ArrayList<>();
 		Registration regobj = new Registration();
 		regobj.setRegistrationid(1);
-		regobj.setRegistrationLocation("dummyreglocation");
+		regobj.setRegistrationLocation("dummyreglocationfrom retry");
 		regobj.setRegistrationownername("dummyregownername");
 		regobj.setRegistrationservicename("dummyregservicename");
 		regobj.setRegistrationfees(2000);
