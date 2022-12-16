@@ -36,6 +36,10 @@ public class VehicleServiceImp implements VehicleService{
 	
 	@Value("${vehicle.provider.url}")
 	private String ENDPOINT_URI;
+	
+	
+	@Autowired
+	private com.vehicleservice.client.FeigClient FeigClient;
 
 	@Override
 	public String createVehicleData(VehicleDTO vehicledto) {
@@ -70,8 +74,8 @@ public class VehicleServiceImp implements VehicleService{
 		return dtoobj;
 	}
 		
-	//@CircuitBreaker(name = "VehicleRegistrationService",fallbackMethod = "dummygetVehicleServiceData")	
-	@Retry(name= "VehicleRegistrationService",fallbackMethod="dummygetVehicleServiceData")
+	@CircuitBreaker(name = "VehicleRegistrationService",fallbackMethod = "dummygetVehicleServiceData")	
+	//@Retry(name= "VehicleRegistrationService",fallbackMethod="dummygetVehicleServiceData")
 	public List<Response> getVehicleServiceData() {
 		List<Vehicle> veholistbj = vehiclerepository.findAll();
 	Registration[] restobj = resttemplate
@@ -90,7 +94,7 @@ public class VehicleServiceImp implements VehicleService{
 		Response res = new Response();
 		List<Vehicle> vehlisobj = new ArrayList<>();
 		Vehicle vehobj = new Vehicle();
-		vehobj.setVehiclename("dummyvehiclenamefrom retry");
+		vehobj.setVehiclename("dummyvehiclenamefrom circuit breaker");
 		vehobj.setVehiclenum(1);
 		vehobj.setVehicleownername("dummyvehicleownername");
 		vehobj.setVehicletype("dummyvehicletype");
@@ -98,7 +102,7 @@ public class VehicleServiceImp implements VehicleService{
 		List<Registration>  listobj = new ArrayList<>();
 		Registration regobj = new Registration();
 		regobj.setRegistrationid(1);
-		regobj.setRegistrationLocation("dummyreglocationfrom retry");
+		regobj.setRegistrationLocation("dummyreglocationfrom circuit breaker");
 		regobj.setRegistrationownername("dummyregownername");
 		regobj.setRegistrationservicename("dummyregservicename");
 		regobj.setRegistrationfees(2000);
@@ -111,6 +115,10 @@ public class VehicleServiceImp implements VehicleService{
 	
 	
 
+	public List<Registration> getLandServiceData(){
+		 List<Registration> reglisobj = FeigClient.getLandServiceData();
+		 return reglisobj;
 		
+	}
 
 }

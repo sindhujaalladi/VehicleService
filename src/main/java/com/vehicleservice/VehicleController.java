@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vehicleservice.common.Registration;
 import com.vehicleservice.common.Response;
 import com.vehicleservice.entity.Vehicle;
 import com.vehicleservice.pojo.VehicleDTO;
@@ -60,5 +61,11 @@ public class VehicleController {
 	@GetMapping("/print")
 	public String printMessage() {
 		return message;
+	}
+	
+	@GetMapping("/getlandserviceinfo")
+	public List<Registration> getLandServiceData(){
+		List<Registration> reglisobj = this.vehicleservice.getLandServiceData();
+		return reglisobj;
 	}
 }
