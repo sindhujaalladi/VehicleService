@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.vehicleservice.VehicleController;
 import com.vehicleservice.common.Registration;
 import com.vehicleservice.common.Response;
 import com.vehicleservice.entity.Vehicle;
@@ -21,6 +24,9 @@ import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Lazy;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 @RefreshScope
@@ -40,15 +46,20 @@ public class VehicleServiceImp implements VehicleService{
 	
 	@Autowired
 	private com.vehicleservice.client.FeigClient FeigClient;
+	
+	Logger logger=LoggerFactory.getLogger(VehicleServiceImp.class);
+
 
 	@Override
 	public String createVehicleData(VehicleDTO vehicledto) {
+		logger.info("Beginning of createVehicleData method"+vehicledto);
 		Vehicle  vehobj = Vehicle.builder().vehiclename(vehicledto.getVehiclename())
 							.vehiclenum(vehicledto.getVehiclenum())
 							.vehicleownername(vehicledto.getVehicleownername())
 							.vehicletype(vehicledto.getVehicletype())
 							.build();
 		vehiclerepository.save(vehobj);	
+		logger.info("End of createVehicleData method");
 			return "Vehicle data created and successfully stored in db";	
 	}
 	
@@ -77,6 +88,7 @@ public class VehicleServiceImp implements VehicleService{
 	@CircuitBreaker(name = "VehicleRegistrationService",fallbackMethod = "dummygetVehicleServiceData")	
 	//@Retry(name= "VehicleRegistrationService",fallbackMethod="dummygetVehicleServiceData")
 	public List<Response> getVehicleServiceData() {
+		logger.info("Beginning of getVehicleServiceData method from service class");
 		List<Vehicle> veholistbj = vehiclerepository.findAll();
 	Registration[] restobj = resttemplate
 				.getForObject(ENDPOINT_URI, Registration[].class);
@@ -86,10 +98,12 @@ public class VehicleServiceImp implements VehicleService{
 		res.setVehicle(veholistbj);
 		res.setRegistration(l1obj);
 		lisobj.add(res);
+		logger.info("End of createVehicleData method from service "+lisobj);
 		return lisobj;
 	}
 	
 	public List<Response> dummygetVehicleServiceData(Exception e){
+		logger.info("Beginning of dummygetVehicleServiceData method from service ");
 		List<Response> lisobj = new ArrayList<>();
 		Response res = new Response();
 		List<Vehicle> vehlisobj = new ArrayList<>();
@@ -110,13 +124,16 @@ public class VehicleServiceImp implements VehicleService{
 		res.setRegistration(listobj);
 		res.setVehicle(vehlisobj);
 		lisobj.add(res);
+		logger.info("End of dummygetVehicleServiceData method from service "+lisobj);
 		return lisobj;
 	}
 	
 	
 
 	public List<Registration> getLandServiceData(){
+		logger.info("Beginning of getLandServiceData method from service ");
 		 List<Registration> reglisobj = FeigClient.getLandServiceData();
+		logger.info("End of getLandServiceData method from service "+reglisobj);
 		 return reglisobj;
 		
 	}

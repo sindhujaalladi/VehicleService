@@ -2,6 +2,8 @@ package com.vehicleservice;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -20,6 +22,9 @@ import com.vehicleservice.entity.Vehicle;
 import com.vehicleservice.pojo.VehicleDTO;
 import com.vehicleservice.service.VehicleService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
 @RequestMapping("/vehicleinfo")
 @RefreshScope
@@ -31,9 +36,14 @@ public class VehicleController {
 	@Value("${message.vehicle}")
 	String message;
 	
+	Logger logger=LoggerFactory.getLogger(VehicleController.class);
+
+	
 	@PostMapping("/createvehicledata")
 	public String createVehicleData(@RequestBody VehicleDTO vehicledto) {
+		logger.info("Beginning of createVehicleData method");
 		String response = this.vehicleservice.createVehicleData(vehicledto);
+		logger.info("End of createVehicleData method"+response);
 		return response;
 		
 	}
@@ -54,7 +64,9 @@ public class VehicleController {
 
 	@GetMapping("/getvehicleserviceinfo")
 	public List<Response> getVehicleServiceData() {
+		logger.info("Beginning of getVehicleServiceData method");
 		List<Response> reslisobj = this.vehicleservice.getVehicleServiceData();
+		logger.info("End of getVehicleServiceData method"+reslisobj);
 		return reslisobj;
 	}
 	
@@ -65,7 +77,9 @@ public class VehicleController {
 	
 	@GetMapping("/getlandserviceinfo")
 	public List<Registration> getLandServiceData(){
+		logger.info("Beginning of getLandServiceData method");
 		List<Registration> reglisobj = this.vehicleservice.getLandServiceData();
+		logger.info("End of getLandServiceData method"+reglisobj);
 		return reglisobj;
 	}
 }
