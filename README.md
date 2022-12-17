@@ -14,5 +14,10 @@ spring circuit breaker
 feign client changes for getting land service info 
 ![image](https://user-images.githubusercontent.com/115841974/208024662-1e87053d-9bf7-45a3-bf91-56ec42e2ad90.png)
 
+Added ELK stack and printed logs in logstash 
+
+![image](https://user-images.githubusercontent.com/115841974/208264447-f914a915-104a-4393-80dd-c2c6dc5329bd.png)
+
+
 
 
