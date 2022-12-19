@@ -1,3 +1,4 @@
+[zipkin details.txt](https://github.com/sindhujaalladi/VehicleService/files/10255846/zipkin.details.txt)
 # VehicleService
 
 spring cloud gateway and retry screen shots 
