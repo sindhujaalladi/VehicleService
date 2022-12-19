@@ -22,6 +22,20 @@ logs generation path
 ![image](https://user-images.githubusercontent.com/115841974/208264561-af438439-bf5e-4fb2-abeb-427e2abaa526.png)
 
 
+sleuth and zipkin tool
+![image](https://user-images.githubusercontent.com/115841974/208344173-b2847c61-38fc-4085-9b11-3c44726dab54.png)
+
+since trace id will be same across all microservices per request and here this is first microservice whch we are hitting so span and trace id will be same 
+for registration trace id will be same and span id will gets changed for each microsevice 
+
+![image](https://user-images.githubusercontent.com/115841974/208344288-2f824b9c-818f-4f27-bf9d-8d6d242115b2.png)
+
+on zipkin tool
+![image](https://user-images.githubusercontent.com/115841974/208344418-54b4ef94-aa40-4a48-acbc-f4264a14b6a4.png)
+
+![image](https://user-images.githubusercontent.com/115841974/208344465-2f21baa9-b712-4ff9-ac1e-e941e2919a89.png)
+
+u can check and cmpare with logs and tool 
 
 
 
