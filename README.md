@@ -37,5 +37,7 @@ on zipkin tool
 
 u can check and cmpare with logs and tool 
 
+with trace id check the logs in kibana 
+![image](https://user-images.githubusercontent.com/115841974/208344844-167dc366-f898-420d-af3d-a483be863f5d.png)
 
 
