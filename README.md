@@ -18,6 +18,10 @@ Added ELK stack and printed logs in logstash
 
 ![image](https://user-images.githubusercontent.com/115841974/208264447-f914a915-104a-4393-80dd-c2c6dc5329bd.png)
 
+logs generation path
+![image](https://user-images.githubusercontent.com/115841974/208264561-af438439-bf5e-4fb2-abeb-427e2abaa526.png)
+
+
 
 
 
